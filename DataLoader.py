@@ -8,7 +8,7 @@ from dbHandler import SupabaseDBHandler # Import the pre-initialized db_handler 
 from Embeddings import EmbeddingEncoder
 supabasedbhandler : SupabaseDBHandler = SupabaseDBHandler()
 embeddingencoder: EmbeddingEncoder  = EmbeddingEncoder()
-DATA_PATH = "Data/Books"
+DATA_PATH = "Data/Markdown_Docs"
 
 def load_txt_doc():
     loader = DirectoryLoader(DATA_PATH, glob = "*.md")

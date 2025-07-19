@@ -141,7 +141,7 @@ if __name__ == "__main__":
     # IMPORTANT: Replace this with the actual URL of the PDF you want to convert
     # For testing multi-threading, use a PDF with many pages if possible.
     pdf_link = "https://docs.aws.amazon.com/pdfs/lambda/latest/dg/lambda-dg.pdf#getting-started" # Example PDF link
-    output_md_file = "AWS_Lamnda_Doc_Multithreaded.md"  # Name of the output Markdown file
+    output_md_file = "AWS_Lambda_Doc_Multithreaded.md"  # Name of the output Markdown file
 
     # You can specify max_workers, or leave it as None to use the default.
     # A good starting point for I/O bound tasks is often more than CPU cores,

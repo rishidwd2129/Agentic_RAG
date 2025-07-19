@@ -9,7 +9,7 @@ class SupabaseDBHandler:
 
     def __new__(cls):
         if cls._instance is None:
-            # Only create a new instnace if one doesn't already exist
+            # Only create a new instance if one doesn't already exist
             cls._instance = super(SupabaseDBHandler, cls).__new__(cls)
             cls._instance._initialize_client()
         return cls._instance
