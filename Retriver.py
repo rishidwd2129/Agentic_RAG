@@ -59,8 +59,6 @@ def simple_similarity_search(
             }
         ).execute()
         
-        # retrieved_documents = response.data
-        # logger.info(f"Successfully retrieved {len(retrieved_documents)} document(s).")
         return response
 
     except Exception as e:
