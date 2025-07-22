@@ -4,6 +4,7 @@ def RagTemplate(query: str, context: str) -> str:
     system_prompt = f'''You are an expert Question-Answering assistant. Your goal is to provide accurate and concise answers based exclusively on the provided context.
 
         Instructions:
+        NOTE : Do not answer the query if context is 'Context for the Given Query is :No relevant context found.' and say No relevant context found for the question.
 
         Analyze the User's Query: Carefully read and understand the user's question.
 
@@ -28,5 +29,5 @@ def RagTemplate(query: str, context: str) -> str:
         {query}
 
         Answer:'''
-
+    print(f"---------------Context for the Given Query is :{context}\n")
     return system_prompt
