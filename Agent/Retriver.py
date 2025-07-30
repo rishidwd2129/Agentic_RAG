@@ -30,7 +30,7 @@ embeddingencoder: EmbeddingEncoder  = EmbeddingEncoder() # Assumes EmbeddingEnco
 def simple_similarity_search(
     query_text: str,
     top_k: int = 5,
-    similarity_threshold: float = 0.7,
+    similarity_threshold: float = 0.5,
     metadata_filter: Optional[Dict[str, Any]] = None
 ) -> List[Dict[str, Any]]:
     logger.info(f"Initiating similarity search for query: '{query_text}'")

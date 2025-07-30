@@ -1,5 +1,6 @@
 import os
 from supabase import create_client, Client
+from neo4j import GraphDatabase
 from dotenv import load_dotenv
 
 
@@ -33,6 +34,32 @@ class SupabaseDBHandler:
         return self.supabase 
 
 
+class Neo4jDBHandler:
+    _instance = None # Class-level variable to hold the single instance
+
+    def __init__(self):
+        """
+        Initializes the database driver.
+        Make sure your Neo4j instance is running.
+        """
+        try:
+            self._driver = GraphDatabase.driver(uri = os.getenv("NEO4J_URI"), auth=(os.getenv("NEO4J_USERNAME"), os.getenv("NEO4J_PASSWORD")))
+            self.driver.verify_connectivity()
+            print("Successfully connected to Neo4j.")
+        except Exception as e:
+            print(f"Failed to connect to Neo4j: {e}")
+            self._driver = None
+
+    def close(self):
+        """Closes the database connection."""
+        if self._driver is not None:
+            self._driver.close()
+            print("Neo4j connection closed.")
+
+
+if __name__ == "__main__":
+    db_handler = Neo4jDBHandler()
+    
 
 
 # load_dotenv()

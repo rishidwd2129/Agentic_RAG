@@ -143,17 +143,7 @@ if __name__ == "__main__":
     INPUT_PDF_DIR = "Data/Upload"
     OUTPUT_MD_DIR = "Data/Markdown_Docs"
     
-    # # Create a dummy input directory and a dummy PDF for the example
-    # os.makedirs(INPUT_PDF_DIR, exist_ok=True)
-    # dummy_pdf_path_1 = os.path.join(INPUT_PDF_DIR, "local_book_1.pdf")
-    # dummy_pdf_path_2 = os.path.join(INPUT_PDF_DIR, "local_book_2.pdf")
-    # if not os.path.exists(dummy_pdf_path_1):
-    #     # NOTE: This creates a text file with a .pdf extension for demonstration.
-    #     # For a real test, place actual PDF files in the 'Data/Books' directory.
-    #     with open(dummy_pdf_path_1, 'w') as f: f.write("dummy content 1")
-    # if not os.path.exists(dummy_pdf_path_2):
-    #     with open(dummy_pdf_path_2, 'w') as f: f.write("dummy content 2")
-
+    
 
     # --- Example 1: Process a whole directory of PDFs ---
     print("--- Running Directory Example ---")

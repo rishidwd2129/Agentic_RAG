@@ -28,7 +28,7 @@ struct MessageView: View {
                     .textSelection(.enabled)
                 
                 // Show a small "Bot" or "You" label
-                Text(message.isFromUser ? "You" : "Bot")
+                Text(message.isFromUser ? "You" : "AI_Agent")
                     .font(.caption)
                     .foregroundColor(.gray)
                     .padding(.leading, 8)

@@ -54,7 +54,8 @@ def chunkstodb(document_name: str, chunks: list[str])->None:
     end_time = time.time()
     print(f"Execution time: {end_time - start_time:.4f} seconds")
 
-
+def chunktoGraph():
+    pass
     
 
 if __name__ == "__main__":
