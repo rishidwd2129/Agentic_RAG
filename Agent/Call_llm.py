@@ -18,11 +18,11 @@ class LLM_Pipeline:
         print("Model loaded successfully!")
         
     
-    def call_llm(self, prompt:str, max_output:int = 250):
+    def call_llm(self, messages:list, max_output:int = 250):
     # 2. Define your prompt using a chat format
-        messages = [
-            {"role": "user", "content": prompt},
-        ]
+        # messages = [
+        #     {"role": "user", "content": prompt},
+        # ]
 
         # 3. Generate the response
         # The pipeline automatically applies the correct chat template for the model.

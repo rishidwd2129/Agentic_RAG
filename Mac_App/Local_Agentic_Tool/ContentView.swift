@@ -2,35 +2,50 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
-    
+
     var body: some View {
-        VStack(spacing: 0) {
-            headerView
-            chatScrollView
-            Divider()
-            messageInputView // This is now correctly in scope
+        // Main ZStack to hold the gradient background and the chat content
+        ZStack {
+            // Flashy gradient background for the whole window
+            LinearGradient(
+                gradient: Gradient(colors: [Color(red: 0.1, green: 0.1, blue: 0.25), Color(red: 0.2, green: 0.15, blue: 0.35)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                headerView
+                chatScrollView
+                messageInputView
+            }
         }
-        .background(Color(.windowBackgroundColor))
         .frame(minWidth: 450, idealWidth: 600, minHeight: 500, idealHeight: 700)
     }
-    
-    // The header view
+
+    // The header view with an icon and styled title
     private var headerView: some View {
-        HStack {
+        HStack(spacing: 12) {
+            Image(systemName: "brain.head.profile.fill")
+                .font(.title)
+                .foregroundColor(.cyan)
+            
             Text("RAG AI Assistant")
                 .font(.title2)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+            
             Spacer()
         }
         .padding()
-        .background(Color(.windowBackgroundColor).shadow(radius: 2))
+        .background(.black.opacity(0.2)) // A subtle background to lift it off the gradient
     }
-    
+
     // The scrollable list of chat messages
     private var chatScrollView: some View {
         ScrollViewReader { scrollViewProxy in
             ScrollView {
-                VStack(spacing: 12) {
+                VStack(spacing: 16) { // Increased spacing for a cleaner look
                     ForEach(viewModel.messages) { message in
                         MessageView(message: message)
                     }
@@ -39,31 +54,33 @@ struct ContentView: View {
             }
             .onChange(of: viewModel.messages) { _ in
                 if let lastMessage = viewModel.messages.last {
-                    withAnimation {
+                    withAnimation(.spring()) { // A bouncier animation
                         scrollViewProxy.scrollTo(lastMessage.id, anchor: .bottom)
                     }
                 }
             }
         }
     }
-    
-    // The input field and send button at the bottom
+
+    // The input field and send button with a "glassmorphism" effect
     private var messageInputView: some View {
         HStack(spacing: 12) {
             TextField("Ask a question...", text: $viewModel.currentInput, onCommit: viewModel.submitQuery)
                 .textFieldStyle(PlainTextFieldStyle())
-                .padding(10)
-                .background(Color(.textBackgroundColor))
-                .cornerRadius(12)
-            
+                .padding(12)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous)) // Frosted glass effect
+                .foregroundColor(.white)
+
             Button(action: viewModel.submitQuery) {
                 Image(systemName: "arrow.up.circle.fill")
                     .font(.title)
+                    .foregroundColor(viewModel.canSubmit ? .cyan : .gray.opacity(0.6)) // Vibrant send color
             }
             .buttonStyle(PlainButtonStyle())
-            .foregroundColor(viewModel.canSubmit ? .accentColor : .gray)
             .disabled(!viewModel.canSubmit)
+            .animation(.easeInOut, value: viewModel.canSubmit) // Animate color change
         }
         .padding()
+        .background(.black.opacity(0.2)) // Match the header's background
     }
-} // <-- The closing brace for ContentView is here, ensuring all helper views are inside.
+}

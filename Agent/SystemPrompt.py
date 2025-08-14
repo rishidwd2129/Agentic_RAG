@@ -31,3 +31,9 @@ def RagTemplate(query: str, context: str) -> str:
         Answer:'''
     print(f"---------------Context for the Given Query is :{context}\n")
     return system_prompt
+
+if __name__ == "__main__":
+    # Example usage
+    query = "What is the capital of France?"
+    context = "The capital of France is Paris."
+    print(type(RagTemplate(query, context)))

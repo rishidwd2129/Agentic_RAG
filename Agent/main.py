@@ -13,7 +13,7 @@ def main():
     while True:
         user_input = input("Enter your prompt (or type 'exit' to quit): ")
         if user_input.lower() == 'exit':
-            break
+            break 
         
         Context_Response = simple_similarity_search(user_input)
         context = Context_Response.data[0]['content'] if Context_Response.data else "No relevant context found."

@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from Retriver import simple_similarity_search
 from SystemPrompt import RagTemplate
 from Call_llm import LLM_Pipeline
+from Memory import MemoryManager
 
 # --- 2. DEFINE DATA MODELS (with Pydantic) ---
 # FastAPI uses Pydantic models for request and response validation,
@@ -23,7 +24,8 @@ class QueryResponse(BaseModel):
 # --- 3. INITIALIZE MODELS (ONE TIME) ---
 # This logic remains the same. The LLM is loaded once on startup.
 print("Initializing LLM Pipeline... This may take a moment.")
-LLM = LLM_Pipeline(model_id="Qwen/Qwen2-1.5B-Instruct")
+pipe = LLM_Pipeline(model_id="Qwen/Qwen2-1.5B-Instruct")
+LLM = MemoryManager(llm_pipeline= pipe)
 print("LLM Pipeline Initialized. Server is ready.")
 
 # Initialize the FastAPI application
@@ -43,23 +45,25 @@ def run_rag_pipeline(user_prompt: str) -> str:
 
         # 1. Retrieve context
         print("Step 1: Retrieving context...")
-        Context_Response = simple_similarity_search(user_prompt)
+        # Context_Response = simple_similarity_search(user_prompt)
         
         # 2. Extract context text
-        context = Context_Response.data[0]['content'] if Context_Response and Context_Response.data else "No relevant context found."
-        print("Step 2: Context extracted.")
+        # context = Context_Response.data[0]['content'] if Context_Response and Context_Response.data else "No relevant context found."
+        # print("Step 2: Context extracted.")
         
-        # 3. Create the final prompt
-        input_prompt = RagTemplate(query=user_prompt, context=context)
-        print("Step 3: Prompt template created.")
+        # # 3. Create the final prompt
+        # input_prompt = RagTemplate(query=user_prompt, context=context)
+        # print("Step 3: Prompt template created.")
 
         # 4. Call the LLM
         print("Step 4: Calling the LLM...")
-        llm_response_raw = LLM.call_llm(input_prompt)
+        # llm_response_raw = LLM.chat(user_prompt)
+        final_answer = LLM.chat(user_prompt)
         
         # 5. Extract the final answer
-        final_answer = llm_response_raw[0]['generated_text'][1]['content']
-        print("Step 5: Answer generated successfully.")
+        # final_answer = llm_response_raw[0]['generated_text'][1]['content']
+        
+        # print("Step 5: Answer generated successfully.")
         
         return final_answer
 

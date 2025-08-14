@@ -1,10 +1,3 @@
-//
-//  MessageView.swift
-//  Local_Agentic_Tool
-//
-//  Created by Rishi Dwivedi on 21/07/25.
-//
-
 import SwiftUI
 
 struct MessageView: View {
@@ -14,47 +7,58 @@ struct MessageView: View {
         HStack {
             // User messages align to the right
             if message.isFromUser {
-                Spacer()
+                Spacer(minLength: 50) // Ensure bubbles don't stretch full-width
             }
             
-            VStack(alignment: .leading, spacing: 4) {
-                // The main message text content
+            VStack(alignment: message.isFromUser ? .trailing : .leading, spacing: 5) {
+                // The main message text content with a gradient background
                 Text(message.text)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(bubbleColor)
-                    .foregroundColor(textColor)
-                    .cornerRadius(16)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(bubbleGradient) // Apply the new gradient
+                    .foregroundColor(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Smoother corners
                     .textSelection(.enabled)
                 
-                // Show a small "Bot" or "You" label
-                Text(message.isFromUser ? "You" : "AI_Agent")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .padding(.leading, 8)
+                // Show a small "Bot" or "You" label with an icon for the AI
+                HStack(spacing: 4) {
+                    if !message.isFromUser {
+                        Image(systemName: "sparkles") // AI icon
+                            .font(.caption2)
+                    }
+                    Text(message.isFromUser ? "You" : "AI Agent")
+                }
+                .font(.caption)
+                .foregroundColor(.gray)
+                .padding(.horizontal, 8)
             }
-            .id(message.id) // Add ID for ScrollViewReader
+            .id(message.id)
             
             // Bot messages align to the left
             if !message.isFromUser {
-                Spacer()
+                Spacer(minLength: 50)
             }
         }
     }
     
-    // Determine bubble color based on sender and error state
-    private var bubbleColor: Color {
+    // Determine bubble gradient based on sender and error state
+    @ViewBuilder
+    private var bubbleGradient: some View {
         if message.isError {
-            return Color.red.opacity(0.8)
+            LinearGradient(
+                gradient: Gradient(colors: [.red, .orange]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else if message.isFromUser {
+            LinearGradient(
+                gradient: Gradient(colors: [.blue, .purple]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            // A sleek, dark bubble for the AI
+            Color.black.opacity(0.4)
         }
-        return message.isFromUser ? .accentColor : Color(.textBackgroundColor)
-    }
-    
-    // Determine text color for readability
-    private var textColor: Color {
-        if message.isError {
-            return .white
-        }
-        return message.isFromUser ? .white : Color(.textColor)
     }
 }
